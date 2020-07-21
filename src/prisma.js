@@ -1,31 +1,35 @@
 import { Prisma } from 'prisma-binding'
+import { fragmentReplacements } from './resolvers/index'
 
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
-    endpoint: 'http://localhost:4466'
+    endpoint: 'http://localhost:4466',
+    secret: 'thisismysupersecrettext',
+    fragmentReplacements
 })
 
-const createPostForUser = async (authorId, data) => {
-    const userExists = await prisma.exists.User({
-        id: authorId
-    })
+export { prisma as default }
+// const createPostForUser = async (authorId, data) => {
+//     const userExists = await prisma.exists.User({
+//         id: authorId
+//     })
     
-    if( !userExists) {
-        throw new Error('User not fouund')
-    }
+//     if( !userExists) {
+//         throw new Error('User not fouund')
+//     }
 
-    const post = await prisma.mutation.createPost({
-        data: {
-            ...data,
-            author: {
-                connect: {
-                    id: authorId
-                }
-            }
-        }
-    }, '{ author { id name email posts { id title published } } }')
-    return post.author
-}
+//     const post = await prisma.mutation.createPost({
+//         data: {
+//             ...data,
+//             author: {
+//                 connect: {
+//                     id: authorId
+//                 }
+//             }
+//         }
+//     }, '{ author { id name email posts { id title published } } }')
+//     return post.author
+// }
 
 // createPostForUser('ckcfloerq016n0780nxl8ln5a', {
 //     title: "Using async await",
@@ -38,23 +42,23 @@ const createPostForUser = async (authorId, data) => {
 // })
 
 
-const updatePostForUser = async (postId, data) => {
-    const postExists = await prisma.exists.Post({
-        id: postId
-    })
+// const updatePostForUser = async (postId, data) => {
+//     const postExists = await prisma.exists.Post({
+//         id: postId
+//     })
 
-    if(!postExists){
-        throw new Error('Post not found')
-    }
+//     if(!postExists){
+//         throw new Error('Post not found')
+//     }
 
-    const post = await prisma.mutation.updatePost({
-        where: {
-            id: postId
-        },
-        data
-    }, '{ author { id name email posts { id title body published } } }')
-    return post.author
-}
+//     const post = await prisma.mutation.updatePost({
+//         where: {
+//             id: postId
+//         },
+//         data
+//     }, '{ author { id name email posts { id title body published } } }')
+//     return post.author
+// }
 
 // updatePostForUser('ckcmqj3gi003a0780po49sfqy', {
 //     published: false,
