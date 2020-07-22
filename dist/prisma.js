@@ -1,19 +1,27 @@
-import { Prisma } from 'prisma-binding'
-import { fragmentReplacements } from './resolvers/index'
+'use strict';
 
-const prisma = new Prisma({
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _prismaBinding = require('prisma-binding');
+
+var _index = require('./resolvers/index');
+
+var prisma = new _prismaBinding.Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: process.env.PRISMA_ENDPOINT,
     secret: 'thisismysupersecrettext',
-    fragmentReplacements
-})
+    fragmentReplacements: _index.fragmentReplacements
+});
 
-export { prisma as default }
+exports.default = prisma;
 // const createPostForUser = async (authorId, data) => {
 //     const userExists = await prisma.exists.User({
 //         id: authorId
 //     })
-    
+
 //     if( !userExists) {
 //         throw new Error('User not fouund')
 //     }
